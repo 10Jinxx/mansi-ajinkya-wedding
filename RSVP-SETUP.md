@@ -1,12 +1,21 @@
-# Mansi-side RSVP setup
+# Mansi's RSVP — deployment checklist
 
-This invitation intentionally has RSVP disabled until a separate bride-side Google Sheet is connected.
+## Dedicated response sheet (already created)
 
-1. Create a **new** Google Sheet for Mansi's guests (do not reuse Ajinkya's RSVP sheet).
-2. Name the response tab **RSVP Responses** and use columns: Submitted at, Guest name, Attendance, Guest count, Celebrations, Source.
-3. In the new Sheet, go to Extensions → Apps Script and paste `google-apps-script-rsvp.gs`.
-4. Deploy → New deployment → Web app; execute as Me and grant access to Anyone.
-5. Paste the resulting /exec URL into `const RSVP_ENDPOINT='';` in index.html.
-6. Submit a test RSVP and verify a new row appears in the new sheet before distributing the link.
+[Open Mansi's RSVP Responses](https://docs.google.com/spreadsheets/d/1Tk8-6D-ZVWqF1QSLuVsOcVFMXm9-lDuXI4hAhmeORmM/edit)
 
-Note: The four photographs and Sajdaa MP3 currently load from the original Ajinkya-side GitHub Pages site's public asset URLs. This preserves media playback and image display but is not yet a self-contained media clone. Copy those binary files into this repository and change URLs to local assets before making the sites fully independent.
+The sheet is separate from Ajinkya's RSVP data. It has an **RSVP Responses** tab with columns: Submitted at, Guest name, Attendance, Guest count, Celebrations, Source.
+
+## One-time deployment (Google Apps Script)
+
+1. Open [script.google.com](https://script.google.com/home/projects/create) while signed into the Google account that owns or can edit Mansi's response sheet.
+2. Delete the starter code and paste the full contents of [google-apps-script-rsvp.gs](google-apps-script-rsvp.gs) from this repository.
+3. Click **Save**, name the project **Mansi Wedding RSVP**.
+4. Click **Deploy → New deployment → Select type: Web app**.
+5. Set **Execute as: Me** and **Who has access: Anyone**. Authorize Google permissions and deploy.
+6. Copy the Web app URL ending in **/exec**. Send it to ChatGPT or replace the empty `RSVP_ENDPOINT` in [index.html](index.html) with the URL.
+7. Submit a test RSVP from the invitation, then verify a new row appears in the dedicated Sheet. Only then share the RSVP link with guests.
+
+**Important:** The response sheet should remain private. Anyone with the public web-app URL can submit RSVP data, but they should not have direct spreadsheet edit access. Avoid sharing personal guest data publicly. Do not reuse Ajinkya's endpoint.
+
+The invitation's submit button is intentionally disabled until the separate /exec endpoint is configured. The RSVP form collects name, attendance, guest count and the selected ceremonies (Vidhaan, Mehendi, Haldi, Tilak, Reception, Wedding).

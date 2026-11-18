@@ -5,6 +5,7 @@
  * Keep the spreadsheet private. Do not share edit access with guests.
  */
 const SHEET_NAME = 'RSVP Responses';
+const SPREADSHEET_ID = '1Tk8-6D-ZVWqF1QSLuVsOcVFMXm9-lDuXI4hAhmeORmM';
 function doPost(e) {
   const p = e && e.parameter ? e.parameter : {};
   const name = String(p.guest_name || '').trim().slice(0, 100);
@@ -14,7 +15,7 @@ function doPost(e) {
   if (!name || !['Yes','No'].includes(attendance) || !Number.isInteger(guests) || guests < 1 || guests > 20) {
     return ContentService.createTextOutput('Invalid RSVP');
   }
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
@@ -26,7 +27,7 @@ function doPost(e) {
     }
     // Prefix dangerous spreadsheet formula starts to avoid formula injection.
     const safe = value => /^[=+@\-]/.test(value) ? "'" + value : value;
-    sheet.appendRow([new Date(), safe(name), attendance, guests, safe(events), 'wedding-website']);
+    sheet.appendRow([new Date(), safe(name), attendance, guests, safe(events), 'mansi-invitation']);
     SpreadsheetApp.flush();
     return ContentService.createTextOutput('OK');
   } finally { lock.releaseLock(); }
